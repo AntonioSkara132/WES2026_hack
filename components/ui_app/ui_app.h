@@ -22,6 +22,7 @@ extern "C" {
 
 //---------------------- PUBLIC FUNCTION PROTOTYPES --------------------------
 void ui_app_init(void);
+void ui_app_recieve_message(const char *text);
 
 #ifdef __cplusplus
 }

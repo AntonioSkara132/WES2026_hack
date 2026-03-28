@@ -108,8 +108,6 @@ void ui_ChatScreen_screen_init(void)
     ui_Label2 = lv_label_create(ui_TextContainer);
     lv_obj_set_width(ui_Label2, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_Label2, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_Label2, 0);
-    lv_obj_set_y(ui_Label2, -46);
     lv_obj_set_align(ui_Label2, LV_ALIGN_BOTTOM_LEFT);
     lv_label_set_text(ui_Label2, "");
 
@@ -124,6 +122,8 @@ void ui_ChatScreen_screen_init(void)
     ui_Label4 = lv_label_create(ui_TextContainer);
     lv_obj_set_width(ui_Label4, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_Label4, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_Label4, 0);
+    lv_obj_set_y(ui_Label4, -46);
     lv_obj_set_align(ui_Label4, LV_ALIGN_BOTTOM_LEFT);
     lv_label_set_text(ui_Label4, "");
 
