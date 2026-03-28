@@ -37,6 +37,13 @@ static int s_retry_num = 0;
 static TaskHandle_t udp_receive_task_handle = NULL;
 static bool udp_client_running = false;
 
+// Forward declarations
+static void event_handler(void* arg, esp_event_base_t event_base,
+                          int32_t event_id, void* event_data);
+void wifi_init_sta(void);
+void udp_receive_task(void *pvParameters);
+esp_err_t udp_client_start(void);
+
 // Wi‑Fi event handler
 static void event_handler(void* arg, esp_event_base_t event_base,
                           int32_t event_id, void* event_data)
@@ -180,6 +187,29 @@ void udp_receive_task(void *pvParameters)
     vTaskDelete(NULL);
 }
 
+esp_err_t udp_client_init(void)
+{
+    ESP_LOGI(TAG, "Initializing UDP audio client...");
+
+    // Initialize NVS (required for Wi-Fi)
+    esp_err_t ret = nvs_flash_init();
+    if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+        ESP_ERROR_CHECK(nvs_flash_erase());
+        ret = nvs_flash_init();
+    }
+    ESP_ERROR_CHECK(ret);
+
+    // Initialize audio system
+    ret = audio_utils_init();
+    if (ret != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to initialize audio system: %s", esp_err_to_name(ret));
+        return ret;
+    }
+
+    ESP_LOGI(TAG, "UDP audio client initialized successfully");
+    return ESP_OK;
+}
+
 esp_err_t udp_client_start_audio_streaming(void)
 {
     ESP_LOGI(TAG, "Starting UDP audio streaming...");
@@ -257,23 +287,3 @@ esp_err_t udp_client_stop(void)
     return ESP_OK;
 }
 
-void udp_run(void)
-{
-    ESP_LOGI(TAG, "UDP Audio Client Example");
-    ESP_LOGI(TAG, "========================");
-
-    esp_err_t ret = udp_client_init();
-    if (ret != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to initialize UDP client");
-        return;
-    }
-
-    ret = udp_client_start();
-    if (ret != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to start UDP client");
-        return;
-    }
-
-    // The UDP receiving task will run indefinitely
-    // In a real application, you might want to add control logic here
-}
