@@ -10,6 +10,7 @@
 #ifndef __GUI_H__
 #define __GUI_H__
 
+#include "freertos/idf_additions.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -26,7 +27,8 @@ extern "C" {
  * @brief Initializes LVGL, TFT drivers and input drivers and starts task needed for GUI operation.
  * 
  */
-void gui_init(void);
+void gui_init(QueueHandle_t *sq, QueueHandle_t *rq);
+void gui_recv_msg();
 
 #ifdef __cplusplus
 }
