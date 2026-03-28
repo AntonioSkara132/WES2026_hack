@@ -25,6 +25,11 @@ void ui_app_init(void)
 {
     ui_init();
 }
+
+void ui_app_recieve_message(const char *text)
+{
+	recieve_message(text);
+}
 //---------------------------- PRIVATE FUNCTIONS ------------------------------
 
 //---------------------------- INTERRUPT HANDLERS -----------------------------

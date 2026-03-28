@@ -7,5 +7,23 @@
 
 void send_message(lv_event_t * e)
 {
-	// Your code here
+	const char *text = lv_textarea_get_text(ui_MsgArea);
+	recieve_message(text);
+	// tcp send
+	lv_textarea_set_text(ui_MsgArea, "");
+}
+
+void recieve_message(const char *text)
+{
+	// recv msg
+	int cnt = lv_obj_get_child_cnt(ui_TextContainer);
+	lv_obj_t *curr, *prev;
+	curr = lv_obj_get_child(ui_TextContainer, cnt-1);
+	for(int i=cnt-2; i>=0; --i)
+	{
+		prev = curr;
+		curr = lv_obj_get_child(ui_TextContainer, i);
+		lv_label_set_text(prev, lv_label_get_text(curr));
+	}
+	lv_label_set_text(curr, text);
 }

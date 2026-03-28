@@ -1,14 +1,14 @@
 /**
- * @file ui_app.c
- *
- * @brief See the source file.
- *
- * COPYRIGHT NOTICE: (c) 2023 Byte Lab Grupa d.o.o.
- * All rights reserved.
- */
+* @file i2s_std_example_main.h
 
-#ifndef __UI_APP_C__
-#define __UI_APP_C__
+* @brief See the source file.
+* 
+* COPYRIGHT NOTICE: (c) 2022 Byte Lab Grupa d.o.o.
+* All rights reserved.
+*/
+
+#ifndef __I2S_STD_EXAMPLE_MAIN_H__
+#define __I2S_STD_EXAMPLE_MAIN_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -21,11 +21,15 @@ extern "C" {
 //-------------------------------- DATA TYPES ---------------------------------
 
 //---------------------- PUBLIC FUNCTION PROTOTYPES --------------------------
-void ui_app_init(void);
-void ui_app_recieve_message(const char *text);
+
+/**
+ * @brief Initializes LVGL, TFT drivers and input drivers and starts task needed for GUI operation.
+ * 
+ */
+void audio_play(void);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // __UI_APP_C__
+#endif // __I2S_STD_EXAMPLE_MAIN_H__
