@@ -5,12 +5,12 @@
 
 #include "ui.h"
 
-void send_message(lv_event_t * e)
+static void add_padding(lv_obj_t *label)
 {
-	const char *text = lv_textarea_get_text(ui_MsgArea);
-	recieve_message(text);
-	// tcp send
-	lv_textarea_set_text(ui_MsgArea, "");
+    lv_obj_set_style_pad_left(label, 4, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(label, 4, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(label, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(label, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
 }
 
 void recieve_message(const char *text)
@@ -23,7 +23,20 @@ void recieve_message(const char *text)
 	{
 		prev = curr;
 		curr = lv_obj_get_child(ui_TextContainer, i);
-		lv_label_set_text(prev, lv_label_get_text(curr));
+		const char *temp = lv_label_get_text(curr);
+		if(*temp != '\0') {
+			add_padding(prev);
+			lv_label_set_text(prev, lv_label_get_text(curr));
+		}
 	}
+	add_padding(curr);
 	lv_label_set_text(curr, text);
+}
+
+void send_message(lv_event_t * e)
+{
+	const char *text = lv_textarea_get_text(ui_MsgArea);
+	recieve_message(text);
+	// tcp send
+	lv_textarea_set_text(ui_MsgArea, "");
 }

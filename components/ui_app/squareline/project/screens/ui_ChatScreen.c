@@ -110,6 +110,13 @@ void ui_ChatScreen_screen_init(void)
     lv_obj_set_height(ui_Label2, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_Label2, LV_ALIGN_BOTTOM_LEFT);
     lv_label_set_text(ui_Label2, "");
+    lv_obj_set_style_text_color(ui_Label2, lv_color_hex(0xE6E983), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_Label2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui_Label2, 6, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Label2, lv_color_hex(0x3C3C3C), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Label2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_color(ui_Label2, lv_color_hex(0x262626), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_opa(ui_Label2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Label3 = lv_label_create(ui_TextContainer);
     lv_obj_set_width(ui_Label3, LV_SIZE_CONTENT);   /// 1
@@ -118,6 +125,11 @@ void ui_ChatScreen_screen_init(void)
     lv_obj_set_y(ui_Label3, -23);
     lv_obj_set_align(ui_Label3, LV_ALIGN_BOTTOM_LEFT);
     lv_label_set_text(ui_Label3, "");
+    lv_obj_set_style_text_color(ui_Label3, lv_color_hex(0xE6E983), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_Label3, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui_Label3, 6, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Label3, lv_color_hex(0x3C3C3C), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Label3, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Label4 = lv_label_create(ui_TextContainer);
     lv_obj_set_width(ui_Label4, LV_SIZE_CONTENT);   /// 1
@@ -126,6 +138,11 @@ void ui_ChatScreen_screen_init(void)
     lv_obj_set_y(ui_Label4, -46);
     lv_obj_set_align(ui_Label4, LV_ALIGN_BOTTOM_LEFT);
     lv_label_set_text(ui_Label4, "");
+    lv_obj_set_style_text_color(ui_Label4, lv_color_hex(0xE6E983), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_Label4, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui_Label4, 6, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Label4, lv_color_hex(0x3C3C3C), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Label4, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Label5 = lv_label_create(ui_TextContainer);
     lv_obj_set_width(ui_Label5, LV_SIZE_CONTENT);   /// 1
@@ -134,6 +151,11 @@ void ui_ChatScreen_screen_init(void)
     lv_obj_set_y(ui_Label5, -69);
     lv_obj_set_align(ui_Label5, LV_ALIGN_BOTTOM_LEFT);
     lv_label_set_text(ui_Label5, "");
+    lv_obj_set_style_text_color(ui_Label5, lv_color_hex(0xE6E983), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_Label5, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui_Label5, 6, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Label5, lv_color_hex(0x3C3C3C), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Label5, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Label6 = lv_label_create(ui_TextContainer);
     lv_obj_set_width(ui_Label6, LV_SIZE_CONTENT);   /// 1
@@ -142,6 +164,11 @@ void ui_ChatScreen_screen_init(void)
     lv_obj_set_y(ui_Label6, -92);
     lv_obj_set_align(ui_Label6, LV_ALIGN_BOTTOM_LEFT);
     lv_label_set_text(ui_Label6, "");
+    lv_obj_set_style_text_color(ui_Label6, lv_color_hex(0xE6E983), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_Label6, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui_Label6, 6, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Label6, lv_color_hex(0x3C3C3C), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Label6, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Label7 = lv_label_create(ui_TextContainer);
     lv_obj_set_width(ui_Label7, LV_SIZE_CONTENT);   /// 1
@@ -150,6 +177,11 @@ void ui_ChatScreen_screen_init(void)
     lv_obj_set_y(ui_Label7, -115);
     lv_obj_set_align(ui_Label7, LV_ALIGN_BOTTOM_LEFT);
     lv_label_set_text(ui_Label7, "");
+    lv_obj_set_style_text_color(ui_Label7, lv_color_hex(0xE6E983), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_Label7, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui_Label7, 6, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Label7, lv_color_hex(0x3C3C3C), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Label7, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Label8 = lv_label_create(ui_TextContainer);
     lv_obj_set_width(ui_Label8, LV_SIZE_CONTENT);   /// 1
@@ -158,6 +190,11 @@ void ui_ChatScreen_screen_init(void)
     lv_obj_set_y(ui_Label8, -138);
     lv_obj_set_align(ui_Label8, LV_ALIGN_BOTTOM_LEFT);
     lv_label_set_text(ui_Label8, "");
+    lv_obj_set_style_text_color(ui_Label8, lv_color_hex(0xE6E983), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_Label8, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui_Label8, 6, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Label8, lv_color_hex(0x3C3C3C), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Label8, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Label9 = lv_label_create(ui_TextContainer);
     lv_obj_set_width(ui_Label9, LV_SIZE_CONTENT);   /// 1
@@ -166,6 +203,11 @@ void ui_ChatScreen_screen_init(void)
     lv_obj_set_y(ui_Label9, -161);
     lv_obj_set_align(ui_Label9, LV_ALIGN_BOTTOM_LEFT);
     lv_label_set_text(ui_Label9, "");
+    lv_obj_set_style_text_color(ui_Label9, lv_color_hex(0xE6E983), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_Label9, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui_Label9, 6, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Label9, lv_color_hex(0x3C3C3C), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Label9, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lv_obj_add_event_cb(ui_MsgArea, ui_event_MsgArea, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_SendBtn, ui_event_SendBtn, LV_EVENT_ALL, NULL);

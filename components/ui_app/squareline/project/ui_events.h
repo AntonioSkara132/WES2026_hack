@@ -10,8 +10,8 @@
 extern "C" {
 #endif
 
-void send_message(lv_event_t * e);
 void recieve_message(const char *text);
+void send_message(lv_event_t * e);
 
 #ifdef __cplusplus
 } /*extern "C"*/
