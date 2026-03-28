@@ -26,7 +26,8 @@ extern "C" {
  * @brief Initializes LVGL, TFT drivers and input drivers and starts task needed for GUI operation.
  * 
  */
-void audio_play(void);
+void play(void);
+
 
 #ifdef __cplusplus
 }
