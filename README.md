@@ -159,7 +159,7 @@ The IoT Voice Communication System enables real-time voice communication between
 
 ## Application Example
 
-- **Child monitoring:** Platform for helping kindergarten nannies keep track children 
+- **Child protection:** Platform for helping babysitters keep track children 
 
 ---
 
