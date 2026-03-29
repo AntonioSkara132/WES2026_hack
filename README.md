@@ -1,140 +1,166 @@
-# LVGL + SquareLine ESP32 template
-
-This project is a **teaching template** for students to:
-
-- design a UI in **SquareLine Studio**
-- export it as C code
-- build and **flash it directly to an ESP32** (e.g. ByteLab DevKit)
-
-The LVGL and driver setup is already done – students only need to work in SquareLine and (optionally) in `ui_events.c`.
-
-- **ESP-IDF**: 5.0.x  
-- **LVGL**: 8.3.4  
-- **SquareLine Studio**: 1.5.4  
+# IoT Voice Communication System
+**WiFi-Based Audio Streaming and Text Messaging Platform**
 
 ---
 
-### 1. Prerequisites
+## System Overview
 
-- Install ESP-IDF and make sure `idf.py` works.
-- Install SquareLine Studio **1.5.4**. (Free trial)
-- Clone/download this project.
-- This template uses **git submodules**:
-  - `git submodule update --init --recursive`
-  - Apply the driver patch with the provided scripts (recommended):
-    - **Windows (PowerShell)**: `.\scripts\apply_patch.ps1`
-    - **Linux/macOS (bash)**: `./scripts/apply_patch.sh`
+The IoT Voice Communication System enables real-time voice communication between a laptop and multiple ESP32 microcontroller boards over WiFi. The laptop runs a Python server that captures microphone audio and broadcasts it to all connected ESP32 devices. Text messages and alerts are exchanged reliably over TCP, while audio streams over UDP for low-latency transmission.
 
-These scripts apply `components/lvgl_esp32_drivers_8-3.patch` so the display drivers match LVGL 8.3.4.
-
-If you use the Byte Lab DevKit, copy defaults once:
-
-- Linux/macOS: `cp sdkconfig.defaults sdkconfig`  
-- PowerShell: `Copy-Item sdkconfig.defaults sdkconfig`
+**Key Capabilities:**
+- Real-time audio streaming from laptop microphone to multiple ESP32 speakers
+- Bidirectional text messaging between server and devices
+- Alert notifications via push button and buzzer
+- Support for up to 8 simultaneous device connections
+- Designed for IoT applications, home automation, and remote monitoring
 
 ---
 
-## 2. Configure or import a SquareLine project
+## System Architecture
 
-You can:
-
-- **Use the existing example project** in `components/ui_app/squareline/project`, or  
-- **Create your own project** and point it into this folder.
-
-For a new SquareLine project:
-
-1. Create a new project.  
-2. Platform: **Espressif**.  
-3. Board: **ESP WROVER KIT**.  
-4. Resolution: **240x320 or 320x240**, rotation 90°   
-5. Color depth: **16 bit swap**.  
-6. LVGL version: **8.3.4**.
-
-Then in **File → Project Settings → FILE EXPORT**:
-
-- **Project Export Root** → `.../BL_DevKit_template/components/ui_app/squareline/project/`  
-- **UI Files Export Path** → `.../BL_DevKit_template/components/ui_app/squareline/`  
-- Call functions export file: `.c`
-
-Whenever you **Export UI files** in SquareLine, the generated C files will go directly into this ESP-IDF project.
-
-### Import the existing `.spj` into SquareLine
-
-If you want to start from the provided demo UI instead of creating a new one:
-
-1. Open **SquareLine Studio**.  
-2. Choose **Open project** (or `File → Open project`).  
-3. Navigate to  
-   `components/ui_app/squareline/project/`  
-4. Select the `.spj` file (for example `esp32_gui.spj`) and open it.  
-5. Check **Project Settings → FILE EXPORT** and verify that:
-   - **Project Export Root** is `components/ui_app/squareline/project/`  
-   - **UI Files Export Path** is `components/ui_app/squareline/`
-
-After that, you can modify the UI, then use **Export UI files** to update the C code used by this ESP-IDF project.
-
----
-
-## 3. Build and flash your UI to ESP32
-
-1. Open a terminal in the project root.  
-2. Source ESP-IDF environment (e.g. `. $HOME/esp/esp-idf/export.sh` or the ESP-IDF PowerShell script).  
-3. Make sure the **SquareLine app** is selected (it is the default):
-   - `idf.py menuconfig` → `Component config → UI application` → **SquareLine generated example**.
-4. Build:
-   - `idf.py build`
-5. Flash (adjust port as needed):
-   - Windows: `idf.py -p COMx flash`  
-   - Linux/macOS: `idf.py -p /dev/ttyUSB0 flash`
-6. Monitor:
-   - Windows: `idf.py -p COMx monitor`  
-   - Linux/macOS: `idf.py -p /dev/ttyUSB0 monitor`
-
-If you are using the Byte Lab DevKit, set the **TCH_IRQ switch** on the peripheral module to **OFF**.
-
-### Project structure and submodules
-
-This template was built from an LVGL demo project with support for several display and touch controllers.
-
-- `components/ui_app/squareline/` – exported C UI files (`ui.c`, `ui.h`, helpers, images, screens, etc.).  
-- `components/ui_app/squareline/project/` – SquareLine project files (`.spj`, `.sll`, …).  
-- `components/ui_app/ui_app.c` – calls `ui_init()` from the SquareLine-generated code.  
-- `components/ui_app/squareline/ui_events.c/.h` – where you add your own logic; these files survive re-exports from SquareLine.
-
-You normally don’t need to touch any LVGL or driver code – focus on SquareLine and `ui_events.c`.
-
-This template depends on
-
-- [lvgl](https://github.com/lvgl/lvgl)
-- [lvgl_esp32_drivers](https://github.com/lvgl/lvgl_esp32_drivers) (patched for LVGL 8.3 – see `components/lvgl_esp32_drivers_8-3.patch` or `patches/`)
-
----
-
-## 4. FAQ / common issues
-
-### SquareLine export error on Windows (weird `NullReference` or `AAAA`-style messages)
-
-Sometimes SquareLine fails export on Windows with confusing internal errors. One common cause is **system date/time being wrong**.
-
-- Make sure **Windows date, time and timezone are correct** and that automatic time sync is enabled.  
-- Close SquareLine, fix the system time, then reopen the project and try **Export UI files** again.
-
-If it still fails, also double-check:
-
-- `File → Project Settings → FILE EXPORT` paths (see section 2).  
-- `File → Project Settings → Assets` has all assets inside `components/ui_app/squareline/project/assets/` and none pointing outside the project tree.
-
-### Linux: `idf.py` can’t open `/dev/ttyUSB0`
-
-If `idf.py flash` or `idf.py monitor` says it can’t open `/dev/ttyUSB0` (permission denied or device not found):
-
-- Check that the board is connected and the device exists:
-  - `ls /dev/ttyUSB*`
-- If it exists but you get **permission denied**, add your user to the `dialout` (or equivalent) group and re-login:
-
-```bash
-sudo usermod -a -G dialout $USER
+```
+┌──────────────────────────┐
+│    Laptop (Server)       │
+│  - Python Script         │
+│  - PyAudio (Microphone)  │
+│  - TCP/UDP Networking    │
+└────────────┬─────────────┘
+             │
+      ┌──────┴───────────────────┐
+      │                          │
+  UDP Audio (5001)         TCP Messages (5002)
+      │                          │
+      ▼                          ▼
+ ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐
+ │ ESP32-1 │  │ ESP32-2 │  │ ESP32-3 │  │ ESP32-4 │
+ │ ESP-IDF │  │ ESP-IDF │  │ ESP-IDF │  │ ESP-IDF │
+ │ FreeRTOS│  │FreeRTOS │  │FreeRTOS │  │FreeRTOS │
+ └─────────┘  └─────────┘  └─────────┘  └─────────┘
+    │            │            │            │
+    ├─Speaker    ├─Speaker    ├─Speaker    ├─Speaker
+    ├─Button     ├─Button     ├─Button     ├─Button
+    └─Buzzer     └─Buzzer     └─Buzzer     └─Buzzer
 ```
 
-- On some distros the group might be `uucp` or `plugdev` instead of `dialout`.  
-- After changing groups, **log out and back in**, or reboot, then retry `idf.py -p /dev/ttyUSB0 flash`.
+---
+
+## Communication Protocols
+
+### Audio Stream (UDP - Port 5001)
+- **Source:** Laptop microphone captured at 16 kHz, 16-bit mono via PyAudio
+- **Packet Format:** Header + Sequence Number + Timestamp + Audio Data
+- **Bandwidth:** ~256 kbps
+- **Latency:** 20-80 ms (acceptable for voice)
+- **Tolerance:** UDP allows up to 5% packet loss with graceful handling
+
+### Text Messaging (TCP - Port 5002)
+- **Format:** JSON-based messages
+- **Types:** User messages, alerts, status updates, acknowledgments
+- **Reliability:** TCP ensures all messages arrive intact
+- **Latency:** 10-30 ms typical
+- **Max Message:** 64 characters per message
+
+---
+
+## Hardware Components
+
+**ESP32 Microcontroller:**
+- Dual-core 240 MHz processor
+- 520 KB RAM, 4-8 MB Flash
+- WiFi 802.11n (2.4 GHz)
+- 34 GPIO pins (DAC, ADC, PWM-capable)
+- Power: 5V USB or 3.3V regulated input
+
+**Peripherals per ESP32:**
+- **Speaker/Amplifier:** Connected to GPIO 25 (DAC output)
+- **Push Button:** GPIO 34 with pull-down resistor for user alerts
+- **Buzzer:** GPIO 27 with transistor driver for incoming alerts
+- **Display (Optional):** I2C LCD for message display
+
+**Laptop/Server Requirements:**
+- Python 3.8 or newer
+- PyAudio library for microphone input
+- WiFi connectivity to same network as ESP32 devices
+- Minimum 4 GB RAM recommended
+
+---
+
+## Software Stack
+
+### Server (Laptop)
+- **Language:** Python 3.8+
+- **Audio Capture:** PyAudio (reads from system microphone)
+- **Networking:** Python socket library (UDP broadcast + TCP server)
+- **Architecture:** Multi-threaded (audio capture, UDP broadcast, TCP messaging, alert handling)
+- **Format:** JSON for all network communication
+
+### Client (ESP32)
+- **Framework:** Espressif ESP-IDF (IoT Development Framework)
+- **OS:** FreeRTOS (real-time operating system)
+- **Language:** C with FreeRTOS API
+- **Task-Based:** Each functionality runs as independent FreeRTOS task
+  - WiFi connection management
+  - UDP audio reception and buffering
+  - Audio playback via DAC
+  - TCP message handling
+  - Button monitoring
+  - Buzzer control
+
+---
+
+## Setup Overview
+
+### Server Setup (Python)
+1. Install PyAudio library
+2. Configure server parameters (ports, WiFi settings)
+3. Run Python script to start microphone capture and broadcasting
+
+### ESP32 Setup (ESP-IDF)
+1. Configure WiFi credentials (SSID, password)
+2. Set server IP address and ports
+3. Define GPIO pin assignments for audio, button, buzzer
+4. Build project using ESP-IDF build tools
+5. Flash to ESP32 board via USB
+6. Monitor serial output to verify connection
+
+---
+
+## Data Flow
+
+1. **Audio Path:**
+   - Laptop PyAudio captures microphone → Python creates UDP packets
+   - UDP packets broadcast to all connected ESP32 devices
+   - ESP32 receives packets → stores in circular buffer
+   - Playback task reads from buffer → outputs to DAC → speaker
+
+2. **Messaging Path:**
+   - User/Button input on ESP32 → creates JSON message
+   - Message sent via TCP to laptop server
+   - Server receives → processes and stores message
+   - Server can send messages back to ESP32 via TCP
+
+3. **Alert Path:**
+   - Button press on ESP32 → sends alert via TCP
+   - Server receives alert → controls buzzer on same device
+   - Or server receives command → controls buzzer on specific device
+
+---
+
+## Key Features
+
+- **Low-Latency Audio:** UDP protocol minimizes delay (essential for voice communication)
+- **Reliable Messaging:** TCP ensures all messages arrive and in correct order
+- **Multi-Device:** Single server manages up to 8 simultaneous ESP32 connections
+- **Circular Buffering:** Smooth audio playback with automatic synchronization
+- **Simple Networking:** Standard WiFi network, no specialized infrastructure needed
+- **Scalable Architecture:** Easy to add more devices or features
+
+---
+
+## Application Example
+
+- **Child monitoring:** Platform for helping kindergarten nannies keep track children 
+
+---
+
+**Technology Summary:** Python (server) + ESP-IDF/FreeRTOS (clients) + WiFi UDP/TCP networking
