@@ -43,5 +43,6 @@ void send_message(lv_event_t * e)
 	const char *text = lv_textarea_get_text(ui_MsgArea);
 	memcpy(&out_buffer, text, sizeof(char)*64);
 	xQueueSend(*send_queue, out_buffer, 10);
+	recieve_message(text);
 	lv_textarea_set_text(ui_MsgArea, "");
 }
