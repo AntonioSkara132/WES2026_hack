@@ -10,9 +10,11 @@
 #ifndef __UI_APP_C__
 #define __UI_APP_C__
 
+#include "freertos/idf_additions.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 
 //--------------------------------- INCLUDES ----------------------------------
 
@@ -21,7 +23,7 @@ extern "C" {
 //-------------------------------- DATA TYPES ---------------------------------
 
 //---------------------- PUBLIC FUNCTION PROTOTYPES --------------------------
-void ui_app_init(void);
+void ui_app_init(QueueHandle_t *sq);
 void ui_app_recieve_message(const char *text);
 
 #ifdef __cplusplus

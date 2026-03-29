@@ -28,7 +28,6 @@ extern "C" {
  * 
  */
 void gui_init(QueueHandle_t *sq, QueueHandle_t *rq);
-void gui_recv_msg();
 
 #ifdef __cplusplus
 }

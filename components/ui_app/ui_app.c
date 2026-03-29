@@ -21,8 +21,9 @@
 //------------------------------- GLOBAL DATA ---------------------------------
 
 //------------------------------ PUBLIC FUNCTIONS -----------------------------
-void ui_app_init(void)
+void ui_app_init(QueueHandle_t *sq)
 {
+	send_queue = sq;
     ui_init();
 }
 

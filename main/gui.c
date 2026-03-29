@@ -73,16 +73,10 @@ void gui_init(QueueHandle_t *sq, QueueHandle_t *rq)
     xTaskCreatePinnedToCore(_gui_task, "gui", 4096 * 2, NULL, 0, NULL, 1);
 }
 
-void gui_recv_msg()
-{
-	xQueueReceive(*recv_queue, recv_buffer, (TickType_t)10);
-	ui_app_recieve_message(recv_buffer);
-}
-
 //---------------------------- PRIVATE FUNCTIONS ------------------------------
 static void _create_demo_application(void)
 {
-    ui_app_init();
+    ui_app_init(send_queue);
 }
 
 static void _lv_tick_timer(void *p_arg)
@@ -143,6 +137,10 @@ static void _gui_task(void *p_parameter)
 
     for(;;)
     {
+		if(xQueueReceive(*recv_queue, recv_buffer, (TickType_t)10)) {
+			ui_app_recieve_message(recv_buffer);
+		}
+
         /* Delay 1 tick (assumes FreeRTOS tick is 10ms */
         vTaskDelay(pdMS_TO_TICKS(10));
 

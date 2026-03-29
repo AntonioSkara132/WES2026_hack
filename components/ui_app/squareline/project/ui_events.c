@@ -3,7 +3,12 @@
 // LVGL version: 8.3.11
 // Project name: WES
 
+#include "freertos/idf_additions.h"
 #include "ui.h"
+
+static char message_buffer[8][64];
+static int idx = 0;
+static char out_buffer[64];
 
 static void add_padding(lv_obj_t *label)
 {
@@ -15,7 +20,7 @@ static void add_padding(lv_obj_t *label)
 
 void recieve_message(const char *text)
 {
-	// recv msg
+	memcpy(message_buffer[idx], text, sizeof(char)*64);
 	int cnt = lv_obj_get_child_cnt(ui_TextContainer);
 	lv_obj_t *curr, *prev;
 	curr = lv_obj_get_child(ui_TextContainer, cnt-1);
@@ -30,13 +35,14 @@ void recieve_message(const char *text)
 		}
 	}
 	add_padding(curr);
-	lv_label_set_text(curr, text);
+	lv_label_set_text(curr, message_buffer[idx]);
+	idx = (idx+1)%8;
 }
 
 void send_message(lv_event_t * e)
 {
 	const char *text = lv_textarea_get_text(ui_MsgArea);
-	recieve_message(text);
-	// tcp send
+	memcpy(&out_buffer, text, sizeof(char)*64);
+	xQueueSend(*send_queue, out_buffer, 10);
 	lv_textarea_set_text(ui_MsgArea, "");
 }
