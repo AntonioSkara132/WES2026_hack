@@ -259,15 +259,16 @@ void tcp_helper_task(void *pvParameters)
             } // else 0 means timeout or closed, we handle send below
 
             // Send any pending messages from queue
-            char send_buf[MAX_SEND_MSG_LEN];
+            char send_buf[64];
             while (xQueueReceive(*xSendQueue, send_buf, 0) == pdTRUE) {
-                size_t len = strlen(send_buf);
-                ssize_t sent = tcp_client_send(sock, (uint8_t *)send_buf, len);
-                if (sent != (ssize_t)len) {
+                //size_t len = strlen(send_buf);
+                ssize_t sent = tcp_client_send(sock, (uint8_t *)send_buf, 64);
+                if (sent != 64) {
                     ESP_LOGE(TAG, "Send error, reconnecting...");
                     break;
                 } else {
                     ESP_LOGI(TAG, "Sent %d bytes", sent);
+
                 }
             }
 
@@ -288,14 +289,33 @@ void user_input_task(void *pvParameters)
     char line[MAX_SEND_MSG_LEN];
 
     while (1) {
-        // fgets blocks until Enter is pressed
         if (fgets(line, sizeof(line), stdin) != NULL) {
-            if (xQueueSend(*xSendQueue, line, pdMS_TO_TICKS(1000)) != pdTRUE) {
+
+            // Remove newline if present
+            line[strcspn(line, "\n")] = 0;
+
+            // Create fixed 64-byte buffer
+            char tx_buf[64] = {0};
+
+            size_t len = strlen(line);
+            if (len > 64) len = 64;
+
+            memcpy(tx_buf, line, len);
+
+            // Pad with spaces
+            for (int i = len; i < 64; i++) {
+                tx_buf[i] = ' ';
+            }
+
+            // Send EXACTLY 64 bytes into queue
+            if (xQueueSend(*xSendQueue, tx_buf, pdMS_TO_TICKS(1000)) != pdTRUE) {
                 ESP_LOGW(TAG, "Send queue full, dropping message");
             }
         }
+
         vTaskDelay(pdMS_TO_TICKS(10));
     }
+
     vTaskDelete(NULL);
 }
 
@@ -306,5 +326,6 @@ void init_tcp_task(QueueHandle_t *sendQueue, QueueHandle_t *recvQueue)
     xRecvQueue = recvQueue;
     //wifi_helper_init(); 
 
-    xTaskCreate(tcp_helper_task, "tcp_task", 4096, NULL, 5, NULL);
+    xTaskCreate(tcp_helper_task, "tcp_task", 4096, NULL, 4, NULL);
+    xTaskCreate(user_input_task, "user_input_task", 4096, NULL, 5, NULL);
 }
