@@ -59,7 +59,7 @@ static QueueHandle_t *send_queue, *recv_queue;
 static char recv_buffer[64];
 
 //------------------------------- GLOBAL DATA ---------------------------------
-
+extern char send_buffer[64];
 //------------------------------ PUBLIC FUNCTIONS -----------------------------
 void gui_init(QueueHandle_t *sq, QueueHandle_t *rq)
 {
@@ -76,7 +76,7 @@ void gui_init(QueueHandle_t *sq, QueueHandle_t *rq)
 //---------------------------- PRIVATE FUNCTIONS ------------------------------
 static void _create_demo_application(void)
 {
-    ui_app_init(send_queue);
+    ui_app_init();
 }
 
 static void _lv_tick_timer(void *p_arg)
@@ -91,6 +91,7 @@ static void _gui_task(void *p_parameter)
 
     (void)p_parameter;
     p_gui_semaphore = xSemaphoreCreateMutex();
+	send_buffer[0] = '\0';
 
     lv_init();
 
@@ -150,6 +151,11 @@ static void _gui_task(void *p_parameter)
             lv_task_handler();
             xSemaphoreGive(p_gui_semaphore);
         }
+
+		if(send_buffer[0] != '\0') {
+			xQueueSend(*send_queue, ( void * )send_buffer, (TickType_t)10);
+			send_buffer[0] = '\0';
+		}
     }
 
     /* A task should NEVER return */

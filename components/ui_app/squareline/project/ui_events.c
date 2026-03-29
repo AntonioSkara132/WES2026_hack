@@ -7,7 +7,8 @@
 
 static char message_buffer[8][64];
 static int idx = 0;
-static char out_buffer[64];
+char send_buffer[64];
+char alignments[8] = {0};
 
 static void add_padding(lv_obj_t *label)
 {
@@ -31,18 +32,28 @@ void recieve_message(const char *text)
 		if(*temp != '\0') {
 			add_padding(prev);
 			lv_label_set_text(prev, lv_label_get_text(curr));
+			alignments[i+1] = alignments[i];
+			if(alignments[i+1] == 0) {
+				lv_obj_set_align(prev, LV_ALIGN_BOTTOM_LEFT);
+			}
+			else {
+				lv_obj_set_align(prev, LV_ALIGN_BOTTOM_RIGHT);
+			}
 		}
 	}
 	add_padding(curr);
 	lv_label_set_text(curr, message_buffer[idx]);
+	lv_obj_set_align(curr, LV_ALIGN_BOTTOM_LEFT);
+	alignments[0] = 0;
 	idx = (idx+1)%8;
 }
 
 void send_message(lv_event_t * e)
 {
-	const char *text = lv_textarea_get_text(ui_MsgArea);
-	memcpy(&out_buffer, text, sizeof(char)*64);
-	xQueueSend(*send_queue, out_buffer, 10);
-	recieve_message(text);
+	const char *t = lv_textarea_get_text(ui_MsgArea);
+	memcpy(send_buffer, t, sizeof(char)*64);
+	recieve_message(t);
+	lv_obj_set_align(lv_obj_get_child(ui_TextContainer, 0), LV_ALIGN_BOTTOM_RIGHT);
+	alignments[0] = 1;
 	lv_textarea_set_text(ui_MsgArea, "");
 }

@@ -11,7 +11,6 @@ extern "C" {
 #endif
 
 #include "lvgl.h"
-#include "freertos/idf_additions.h"
 
 #include "ui_helpers.h"
 #include "ui_events.h"
@@ -21,7 +20,6 @@ extern "C" {
 
 ///////////////////// VARIABLES ////////////////////
 
-static QueueHandle_t *send_queue;
 // EVENTS
 extern lv_obj_t * ui____initial_actions0;
 
