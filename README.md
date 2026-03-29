@@ -9,10 +9,9 @@ The IoT Voice Communication System enables real-time voice communication between
 
 **Key Capabilities:**
 - Real-time audio streaming from laptop microphone to multiple ESP32 speakers
-- Bidirectional text messaging between server and devices
 - Alert notifications via push button and buzzer
-- Support for up to 8 simultaneous device connections
 - Designed for IoT applications, home automation, and remote monitoring
+- LCD display with Touch capabilities for exchanging messages with the server
 
 ---
 
@@ -40,6 +39,7 @@ The IoT Voice Communication System enables real-time voice communication between
     ├─Speaker    ├─Speaker    ├─Speaker    ├─Speaker
     ├─Button     ├─Button     ├─Button     ├─Button
     └─Buzzer     └─Buzzer     └─Buzzer     └─Buzzer
+    └─LCD        └─LCD        └─LCD        └─LCD
 ```
 
 ---
@@ -134,15 +134,13 @@ The IoT Voice Communication System enables real-time voice communication between
    - Playback task reads from buffer → outputs to DAC → speaker
 
 2. **Messaging Path:**
-   - User/Button input on ESP32 → creates JSON message
+   - Touch keypad on the LCD - Touch Display on ESP32 → creates JSON message
    - Message sent via TCP to laptop server
    - Server receives → processes and stores message
    - Server can send messages back to ESP32 via TCP
 
 3. **Alert Path:**
    - Button press on ESP32 → sends alert via TCP
-   - Server receives alert → controls buzzer on same device
-   - Or server receives command → controls buzzer on specific device
 
 ---
 
