@@ -3,7 +3,6 @@
 // LVGL version: 8.3.11
 // Project name: WES
 
-#include "freertos/idf_additions.h"
 #include "ui.h"
 
 static char message_buffer[8][64];

@@ -11,6 +11,7 @@ extern "C" {
 #endif
 
 #include "lvgl.h"
+#include "freertos/idf_additions.h"
 
 #include "ui_helpers.h"
 #include "ui_events.h"
