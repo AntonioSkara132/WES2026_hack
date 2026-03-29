@@ -36,7 +36,8 @@ typedef enum {
 } tcp_helper_err_t;
 
 // Global queue for outgoing messages (extern so main can access)
-extern QueueHandle_t xSendQueue;
+extern QueueHandle_t *xSendQueue;
+extern QueueHandle_t *xRecvQueue;
 
 // Initialise Wi‑Fi (blocks until connected or max retries)
 tcp_helper_err_t wifi_helper_init(void);
@@ -58,6 +59,8 @@ void tcp_helper_task(void *pvParameters);
 
 // Optional: user input task that reads from stdin and queues messages
 void user_input_task(void *pvParameters);
+
+void init_tcp_task(QueueHandle_t *sendQueue, QueueHandle_t *recvQueue);
 
 #ifdef __cplusplus
 }
