@@ -33,6 +33,13 @@ esp_err_t audio_play_sine_wave(int frequency, int duration_ms, int16_t volume);
 esp_err_t audio_play_buffer(const int16_t *buffer, size_t buffer_size);
 
 /**
+ * @brief Set software gain multiplier (1.0 = unity, >1 = louder)
+ * @param gain Floating-point gain factor
+ * @return ESP_OK on success, error code otherwise
+ */
+esp_err_t audio_utils_set_gain(float gain);
+
+/**
  * @brief Deinitialize audio playback system
  * @return ESP_OK on success, error code otherwise
  */
