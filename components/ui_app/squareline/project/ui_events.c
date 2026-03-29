@@ -7,7 +7,7 @@
 
 static char message_buffer[8][64];
 static int idx = 0;
-static char out_buffer[64];
+char send_buffer[64];
 
 static void add_padding(lv_obj_t *label)
 {
@@ -40,9 +40,8 @@ void recieve_message(const char *text)
 
 void send_message(lv_event_t * e)
 {
-	const char *text = lv_textarea_get_text(ui_MsgArea);
-	memcpy(&out_buffer, text, sizeof(char)*64);
-	xQueueSend(*send_queue, out_buffer, 10);
-	recieve_message(text);
+	const char *t = lv_textarea_get_text(ui_MsgArea);
+	memcpy(send_buffer, t, sizeof(char)*64);
+	recieve_message(t);
 	lv_textarea_set_text(ui_MsgArea, "");
 }

@@ -17,8 +17,8 @@ extern "C" {
 #define WIFI_MAX_RETRY 5
 
 // TCP server settings
-#define TCP_SERVER_IP   "172.16.55.106"
-#define TCP_SERVER_PORT 8000
+#define TCP_SERVER_IP   "172.16.55.105"
+#define TCP_SERVER_PORT 3333
 
 // Buffer sizes
 #define TCP_RX_BUFFER_SIZE 10000
