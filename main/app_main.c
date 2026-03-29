@@ -5,6 +5,7 @@
 #include "freertos/idf_additions.h"
 #include "gui.h"
 #include "Audio_play.h"
+#include "tcp_helper.h"
 //---------------------------------- MACROS -----------------------------------
 
 //-------------------------------- DATA TYPES ---------------------------------
@@ -26,6 +27,7 @@ void app_main(void)
 	recv_queue = xQueueCreate(msg_queue_len, sizeof(char) * msg_max_len);
 	gui_init(&send_queue, &recv_queue);
 	play();
+	init_tcp_task(&send_queue, &recv_queue);
 }
 
 //---------------------------- PRIVATE FUNCTIONS ------------------------------
