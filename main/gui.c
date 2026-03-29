@@ -15,6 +15,7 @@
 #include <string.h>
 
 #include "freertos/FreeRTOS.h"
+#include "freertos/idf_additions.h"
 #include "freertos/task.h"
 #include "esp_freertos_hooks.h"
 #include "freertos/semphr.h"
@@ -25,6 +26,7 @@
 #include "lvgl.h"
 #include "lvgl_helpers.h"
 
+#include "portmacro.h"
 #include "ui_app/ui_app.h"
 //---------------------------------- MACROS -----------------------------------
 #define LV_TICK_PERIOD_MS (1U)
@@ -53,18 +55,28 @@ static void _gui_task(void *p_parameter);
 
 //------------------------- STATIC DATA & CONSTANTS ---------------------------
 static SemaphoreHandle_t p_gui_semaphore;
+static QueueHandle_t *send_queue, *recv_queue;
+static char recv_buffer[64];
 
 //------------------------------- GLOBAL DATA ---------------------------------
 
 //------------------------------ PUBLIC FUNCTIONS -----------------------------
-void gui_init()
+void gui_init(QueueHandle_t *sq, QueueHandle_t *rq)
 {
+	send_queue = sq;
+	recv_queue = rq;
     /* The ESP32 MCU has got two cores - Core 0 and Core 1, each capable of running tasks independently.
     We want the GUI to run smoothly, without Wi-Fi, Bluetooth and any other task taking its time and therefor
     slowing it down. That's why we need to "pin" the GUI task to it's own core, Core 1.
     Doing so, we reduce the risk of resource conflicts, race conditions and other potential issues.
     * NOTE: When not using Wi-Fi nor Bluetooth, you can pin the GUI task to Core 0.*/
     xTaskCreatePinnedToCore(_gui_task, "gui", 4096 * 2, NULL, 0, NULL, 1);
+}
+
+void gui_recv_msg()
+{
+	xQueueReceive(*recv_queue, recv_buffer, (TickType_t)10);
+	ui_app_recieve_message(recv_buffer);
 }
 
 //---------------------------- PRIVATE FUNCTIONS ------------------------------
