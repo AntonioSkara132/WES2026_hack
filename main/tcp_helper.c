@@ -304,6 +304,7 @@ void init_tcp_task(QueueHandle_t *sendQueue, QueueHandle_t *recvQueue)
 {
     xSendQueue = sendQueue;
     xRecvQueue = recvQueue;
+    //wifi_helper_init(); 
 
     xTaskCreate(tcp_helper_task, "tcp_task", 4096, NULL, 5, NULL);
 }
