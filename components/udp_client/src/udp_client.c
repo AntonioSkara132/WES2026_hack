@@ -206,6 +206,12 @@ esp_err_t udp_client_init(void)
         return ret;
     }
 
+    // Optional software gain for weaker input streams (1.0 = no gain)
+    esp_err_t gain_ret = audio_utils_set_gain(1.0f); // 4x loudness (increased for better audibility)
+    if (gain_ret != ESP_OK) {
+        ESP_LOGW(TAG, "Could not set audio gain: %s", esp_err_to_name(gain_ret));
+    }
+
     ESP_LOGI(TAG, "UDP audio client initialized successfully");
     return ESP_OK;
 }
