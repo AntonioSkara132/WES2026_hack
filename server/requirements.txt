@@ -1,0 +1,7 @@
+socket
+threading
+tkinter
+tkinter
+struct
+pyaudio
+sys
