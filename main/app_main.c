@@ -6,6 +6,7 @@
 #include "gui.h"
 #include "Audio_play.h"
 #include "tcp_helper.h"
+#include "button.h"
 //---------------------------------- MACROS -----------------------------------
 
 //-------------------------------- DATA TYPES ---------------------------------
@@ -28,6 +29,7 @@ void app_main(void)
 	gui_init(&send_queue, &recv_queue);
 	play();
 	init_tcp_task(&send_queue, &recv_queue);
+	init_button(&send_queue);
 }
 
 //---------------------------- PRIVATE FUNCTIONS ------------------------------
