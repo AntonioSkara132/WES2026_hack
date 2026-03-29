@@ -9,10 +9,9 @@ The IoT Voice Communication System enables real-time voice communication between
 
 **Key Capabilities:**
 - Real-time audio streaming from laptop microphone to multiple ESP32 speakers
-- Bidirectional text messaging between server and devices
 - Alert notifications via push button and buzzer
-- Support for up to 8 simultaneous device connections
 - Designed for IoT applications, home automation, and remote monitoring
+- LCD display with Touch capabilities for exchanging messages with the server
 
 ---
 
@@ -28,7 +27,7 @@ The IoT Voice Communication System enables real-time voice communication between
              │
       ┌──────┴───────────────────┐
       │                          │
-  UDP Audio (5001)         TCP Messages (5002)
+  UDP Audio          TCP Messages
       │                          │
       ▼                          ▼
  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐
@@ -40,24 +39,19 @@ The IoT Voice Communication System enables real-time voice communication between
     ├─Speaker    ├─Speaker    ├─Speaker    ├─Speaker
     ├─Button     ├─Button     ├─Button     ├─Button
     └─Buzzer     └─Buzzer     └─Buzzer     └─Buzzer
+    └─LCD        └─LCD        └─LCD        └─LCD
 ```
 
 ---
 
 ## Communication Protocols
 
-### Audio Stream (UDP - Port 5001)
-- **Source:** Laptop microphone captured at 16 kHz, 16-bit mono via PyAudio
+### Audio Stream 
+- **Source:** Laptop microphone captured at 44 kHz, 16-bit stereo via PyAudio
 - **Packet Format:** Header + Sequence Number + Timestamp + Audio Data
-- **Bandwidth:** ~256 kbps
-- **Latency:** 20-80 ms (acceptable for voice)
-- **Tolerance:** UDP allows up to 5% packet loss with graceful handling
 
-### Text Messaging (TCP - Port 5002)
+### Text Messaging 
 - **Format:** JSON-based messages
-- **Types:** User messages, alerts, status updates, acknowledgments
-- **Reliability:** TCP ensures all messages arrive intact
-- **Latency:** 10-30 ms typical
 - **Max Message:** 64 characters per message
 
 ---
@@ -65,23 +59,17 @@ The IoT Voice Communication System enables real-time voice communication between
 ## Hardware Components
 
 **ESP32 Microcontroller:**
-- Dual-core 240 MHz processor
-- 520 KB RAM, 4-8 MB Flash
+- Dual-core processor
+- 520 KB RAM, 4 MB Flash
 - WiFi 802.11n (2.4 GHz)
-- 34 GPIO pins (DAC, ADC, PWM-capable)
 - Power: 5V USB or 3.3V regulated input
 
 **Peripherals per ESP32:**
 - **Speaker/Amplifier:** Connected to GPIO 25 (DAC output)
 - **Push Button:** GPIO 34 with pull-down resistor for user alerts
 - **Buzzer:** GPIO 27 with transistor driver for incoming alerts
-- **Display (Optional):** I2C LCD for message display
+- **Display :** I2C LCD for message display
 
-**Laptop/Server Requirements:**
-- Python 3.8 or newer
-- PyAudio library for microphone input
-- WiFi connectivity to same network as ESP32 devices
-- Minimum 4 GB RAM recommended
 
 ---
 
@@ -108,22 +96,6 @@ The IoT Voice Communication System enables real-time voice communication between
 
 ---
 
-## Setup Overview
-
-### Server Setup (Python)
-1. Install PyAudio library
-2. Configure server parameters (ports, WiFi settings)
-3. Run Python script to start microphone capture and broadcasting
-
-### ESP32 Setup (ESP-IDF)
-1. Configure WiFi credentials (SSID, password)
-2. Set server IP address and ports
-3. Define GPIO pin assignments for audio, button, buzzer
-4. Build project using ESP-IDF build tools
-5. Flash to ESP32 board via USB
-6. Monitor serial output to verify connection
-
----
 
 ## Data Flow
 
@@ -134,15 +106,13 @@ The IoT Voice Communication System enables real-time voice communication between
    - Playback task reads from buffer → outputs to DAC → speaker
 
 2. **Messaging Path:**
-   - User/Button input on ESP32 → creates JSON message
+   - Touch keypad on the LCD - Touch Display on ESP32 → creates JSON message
    - Message sent via TCP to laptop server
    - Server receives → processes and stores message
    - Server can send messages back to ESP32 via TCP
 
 3. **Alert Path:**
    - Button press on ESP32 → sends alert via TCP
-   - Server receives alert → controls buzzer on same device
-   - Or server receives command → controls buzzer on specific device
 
 ---
 
@@ -159,7 +129,7 @@ The IoT Voice Communication System enables real-time voice communication between
 
 ## Application Example
 
-- **Child protection:** Platform for helping babysitters keep track children 
+- **Child protection:** Platform for helping babysitters keep track of children 
 
 ---
 
