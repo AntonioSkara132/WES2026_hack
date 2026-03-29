@@ -15,6 +15,7 @@
 #include "lwip/err.h"
 #include "lwip/sockets.h"
 #include "tcp_helper.h"
+#include "buzzer.h"
 
 static const char *TAG = "TCP_HELPER";
 
@@ -246,6 +247,9 @@ void tcp_helper_task(void *pvParameters)
             if (received > 0) {	      	     
                 ESP_LOGI(TAG, "Received %d bytes", received);
                 print_hex_dump("TCP", rx_buffer, received);
+                buzzer_beep(100); // Beep on receive
+                buzzer_beep(100); // Beep on receive
+                
 
 		if (*xRecvQueue != NULL) {
 		  if (xQueueSend(*xRecvQueue, rx_buffer, 0) != pdTRUE) {
@@ -324,6 +328,7 @@ void init_tcp_task(QueueHandle_t *sendQueue, QueueHandle_t *recvQueue)
 {
     xSendQueue = sendQueue;
     xRecvQueue = recvQueue;
+    buzzer_init(); // Ensure buzzer is ready for use in TCP task
     //wifi_helper_init(); 
 
     xTaskCreate(tcp_helper_task, "tcp_task", 4096, NULL, 4, NULL);
